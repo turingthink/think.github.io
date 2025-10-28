@@ -1,0 +1,21 @@
+name: Deploy to GitHub Pages
+on:
+  push:
+    branches: [ main ]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 18
+    - run: npm install yarn -y
+    - run: yarn install
+    - run: yarn build
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.BUILD_THINK }}
+        publish_dir: ./markdown/.vitepress/dist
+        cname: think.turingthink.site
